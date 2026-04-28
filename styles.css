@@ -1,0 +1,414 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-color: #ffffff;
+    font-family: 'Courier New', monospace;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Chaos zone - contains grid and chaos effects */
+#chaos-zone {
+    width: 95vmin;
+    height: 95vmin;
+    max-width: 1200px;
+    max-height: 1200px;
+    position: relative;
+    z-index: 1;
+}
+
+.container {
+    width: 95vmin;
+    height: 95vmin;
+    max-width: 1200px;
+    max-height: 1200px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    gap: 0;
+    padding: 0;
+}
+
+.grid-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #000000;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    overflow: visible;
+    will-change: transform;
+}
+
+.grid-item span {
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #000;
+    text-align: center;
+    word-break: break-word;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    display: inline-block;
+    padding: 10px;
+}
+
+/* === ORDER STATE (DEFAULT) === */
+.grid-item {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+}
+
+.grid-item span {
+    transform: scale(1) rotate(0deg);
+    font-size: 1.2rem;
+    opacity: 1;
+}
+
+/* Responsive design - Mobile: only show first 3 columns, all 5 rows */
+@media (max-width: 768px) {
+    #chaos-zone {
+        width: 90vmin;
+        height: 150vmin;
+        max-width: 600px;
+        max-height: 1000px;
+        aspect-ratio: 3 / 5;
+    }
+
+    .container {
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(5, 1fr);
+        padding: 0;
+        gap: 0;
+        width: 100%;
+        height: 100%;
+        aspect-ratio: 3 / 5;
+    }
+
+    /* Hide columns 4 and 5 */
+    .grid-item:nth-child(4),
+    .grid-item:nth-child(5),
+    .grid-item:nth-child(9),
+    .grid-item:nth-child(10),
+    .grid-item:nth-child(14),
+    .grid-item:nth-child(15),
+    .grid-item:nth-child(19),
+    .grid-item:nth-child(20),
+    .grid-item:nth-child(24),
+    .grid-item:nth-child(25) {
+        display: none;
+    }
+
+    .grid-item span {
+        font-size: 0.75rem;
+        letter-spacing: 0.5px;
+        padding: 5px;
+        max-width: 100%;
+        word-break: break-word;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+    }
+}
+
+@media (max-width: 480px) {
+    #chaos-zone {
+        width: 85vmin;
+        height: 141.67vmin;
+        max-width: 500px;
+        max-height: 833px;
+        aspect-ratio: 3 / 5;
+    }
+
+    .container {
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(5, 1fr);
+        padding: 0;
+        gap: 0;
+        width: 100%;
+        height: 100%;
+        aspect-ratio: 3 / 5;
+    }
+
+    /* Hide columns 4 and 5 */
+    .grid-item:nth-child(4),
+    .grid-item:nth-child(5),
+    .grid-item:nth-child(9),
+    .grid-item:nth-child(10),
+    .grid-item:nth-child(14),
+    .grid-item:nth-child(15),
+    .grid-item:nth-child(19),
+    .grid-item:nth-child(20),
+    .grid-item:nth-child(24),
+    .grid-item:nth-child(25) {
+        display: none;
+    }
+
+    .grid-item span {
+        font-size: 0.85rem;
+        letter-spacing: 0.5px;
+        padding: 15px;
+        max-width: 100%;
+        word-break: break-word;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+}
+
+/* Cleanup button - positioned outside chaos zone */
+#cleanup-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    padding: 10px 16px;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    z-index: 10000;
+    transition: all 0.3s ease;
+}
+
+#cleanup-btn:hover {
+    background-color: #333;
+    transform: scale(1.05);
+}
+
+#cleanup-btn:active {
+    transform: scale(0.95);
+}
+
+/* Shake animation - intensity increases with CSS variable, preserves rotation and scale */
+@keyframes shake {
+    0%, 100% { transform: translate(var(--translate-x), var(--translate-y)) rotate(var(--rotation, 0deg)) scale(var(--scale, 1)); }
+    25% { transform: translate(calc(var(--translate-x) + var(--shake-x, 2px)), calc(var(--translate-y) + var(--shake-y, 2px))) rotate(var(--rotation, 0deg)) scale(var(--scale, 1)); }
+    50% { transform: translate(calc(var(--translate-x) - var(--shake-x, 2px)), calc(var(--translate-y) + var(--shake-y, 2px))) rotate(var(--rotation, 0deg)) scale(var(--scale, 1)); }
+    75% { transform: translate(calc(var(--translate-x) + var(--shake-x, 2px)), calc(var(--translate-y) - var(--shake-y, 2px))) rotate(var(--rotation, 0deg)) scale(var(--scale, 1)); }
+}
+
+/* BSOD Overlay */
+#bsod-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #0000AA;
+    color: #FFFFFF;
+    font-family: 'Courier New', monospace;
+    display: none;
+    z-index: 999999;
+    overflow: auto;
+    filter: none !important;
+}
+
+#bsod-overlay.show {
+    display: block;
+}
+
+#bsod-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 90vw;
+    width: 100%;
+    max-height: 90vh;
+    overflow: auto;
+    text-align: left;
+    line-height: 1.6;
+    word-break: break-word;
+    padding: 3rem;
+    box-sizing: border-box;
+}
+
+#bsod-content h1 {
+    display: block;
+    background-color: #FFFFFF;
+    color: #0000AA;
+    padding: 10px;
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    font-weight: bold;
+    word-wrap: break-word;
+}
+
+#bsod-content p {
+    margin: 1rem 0;
+    font-size: 1rem;
+    text-transform: uppercase;
+    color: #FFFFFF;
+}
+
+#bsod-content .error-code {
+    font-weight: bold;
+    margin-top: 2rem;
+}
+
+#bsod-restart-btn {
+    display: block;
+    margin-top: 3rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 15px 40px;
+    background-color: #FFFFFF;
+    color: #0000AA;
+    border: 2px solid #FFFFFF;
+    font-family: 'Courier New', monospace;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 1000000;
+    position: relative;
+}
+
+#bsod-restart-btn:active {
+    background-color: #999999;
+    border-color: #999999;
+}
+
+#bsod-restart-btn:focus {
+    outline: 3px solid #FFFFFF;
+    outline-offset: 2px;
+}
+
+/* Mobile BSOD adjustments */
+@media (max-width: 768px) {
+    #bsod-content {
+        padding: 2rem;
+        font-size: 0.9rem;
+    }
+
+    #bsod-content h1 {
+        font-size: 1rem;
+    }
+
+    #bsod-content p {
+        font-size: 0.9rem;
+    }
+
+    #bsod-restart-btn {
+        padding: 12px 30px;
+        font-size: 1rem;
+    }
+}
+
+/* === CHAOS SYSTEM CONTAINERS === */
+.chaos-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.text-overlay-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 11;
+}
+
+/* === TEXT OVERLAY STYLING === */
+.text-overlay {
+    position: absolute;
+    font-family: 'Inter', 'Courier New', monospace;
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 0px;
+    color: #000;
+    text-align: center;
+    word-break: break-word;
+    pointer-events: auto;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    overflow: hidden;
+}
+
+/* Mobile text overlay sizing */
+@media (max-width: 768px) {
+    .text-overlay {
+        font-size: 0.75rem;
+        padding: 5px;
+        letter-spacing: 0.5px;
+    }
+
+    /* Hide text overlays for hidden items */
+    .text-overlay:nth-child(4),
+    .text-overlay:nth-child(5),
+    .text-overlay:nth-child(9),
+    .text-overlay:nth-child(10),
+    .text-overlay:nth-child(14),
+    .text-overlay:nth-child(15),
+    .text-overlay:nth-child(19),
+    .text-overlay:nth-child(20),
+    .text-overlay:nth-child(24),
+    .text-overlay:nth-child(25) {
+        display: none !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .text-overlay {
+        font-size: 0.85rem;
+        padding: 15px;
+        letter-spacing: 0.5px;
+    }
+
+    /* Hide text overlays for hidden items */
+    .text-overlay:nth-child(4),
+    .text-overlay:nth-child(5),
+    .text-overlay:nth-child(9),
+    .text-overlay:nth-child(10),
+    .text-overlay:nth-child(14),
+    .text-overlay:nth-child(15),
+    .text-overlay:nth-child(19),
+    .text-overlay:nth-child(20),
+    .text-overlay:nth-child(24),
+    .text-overlay:nth-child(25) {
+        display: none !important;
+    }
+}
+
+/* === SCATTERED TEXT STYLING === */
+.scattered-text {
+    position: absolute;
+    font-family: 'Inter', 'Courier New', monospace;
+    color: #000;
+    white-space: nowrap;
+    pointer-events: none;
+    will-change: transform;
+}
+
+.scattered-text span {
+    display: inline-block;
+    will-change: transform;
+}

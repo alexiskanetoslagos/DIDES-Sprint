@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grid Chaos | Order to Chaos Typography</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <svg style="position: fixed; width: 0; height: 0; pointer-events: none;" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <filter id="noise-filter">
+                <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" result="noise" seed="1" />
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="0" xChannelSelector="R" yChannelSelector="G" />
+            </filter>
+        </defs>
+    </svg>
+    <div id="chaos-zone">
+        <div class="container" id="grid">
+            <div class="grid-item"><span>Krone. For børn.</span></div>
+        <div class="grid-item"><span>Lichterkette</span></div>
+        <div class="grid-item"><span>My life savings</span></div>
+        <div class="grid-item"><span>DULOXETINE Mepha 60 mg</span></div>
+        <div class="grid-item"><span>Fujifilm Instax Mini 8 Sofortbildkamera Rot</span></div>
+        
+        <div class="grid-item"><span>Spamton G. Spamton in Stein Form</span></div>
+        <div class="grid-item"><span>UNO Flip!</span></div>
+        <div class="grid-item"><span>This is how you lose the time war</span></div>
+        <div class="grid-item"><span>LEGO Everyone Is Awesome Set 40516</span></div>
+        <div class="grid-item"><span></span></div>
+        
+        <div class="grid-item"><span>Wichtige Unterlagen</span></div>
+        <div class="grid-item"><span>ζήτω το έθνος</span></div>
+        <div class="grid-item"><span></span></div>
+        <div class="grid-item"><span></span></div>
+        <div class="grid-item"><span>DELTARUNE Playing Cards</span></div>
+        
+        <div class="grid-item"><span>YOUTOOZ "Mom"</span></div>
+        <div class="grid-item"><span>UNDERTALE Art Book</span></div>
+        <div class="grid-item"><span>Büroklammer</span></div>
+        <div class="grid-item"><span>LEGO-Alexis</span></div>
+        <div class="grid-item"><span></span></div>
+        
+        <div class="grid-item"><span>KALLAX
+Einsatz mit 1 Boden, weiß las./Eichenachbildung, 33x33 cm</span></div>
+        <div class="grid-item"><span></span></div>
+        <div class="grid-item"><span>Matryoshka</span></div>
+        <div class="grid-item"><span></span></div>
+        <div class="grid-item"><span></span></div>
+        </div>
+    </div>
+    
+    <button id="cleanup-btn">CLEAN UP</button>
+
+    <script src="script.js"></script>
+</body>
+</html>
