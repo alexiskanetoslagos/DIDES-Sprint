@@ -1,1 +1,1 @@
-https://github.com/alexiskanetoslagos/DIDES-Sprint.git
+https://alexiskanetoslagos.github.io/DIDES-Sprint/
